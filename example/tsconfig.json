@@ -1,0 +1,22 @@
+{
+  "exclude": [
+    "node_modules"
+  ],
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "removeComments": false,
+    "incremental": false,
+    "declaration": true,
+    "sourceMap": false,
+    "esModuleInterop": true,
+    "module": "CommonJS",
+    "target": "es2015",
+    "lib": ["ESNext","DOM"],
+    "outDir": "dist",
+    "baseUrl": "."
+  },
+  "include": [
+    "src"
+  ]
+}
