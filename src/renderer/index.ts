@@ -8,10 +8,14 @@ declare global {
 }
 
 interface IUpdateServiceRendererOpt {
-    // 是否自动检测更新，设为true时 new 之后自动检测
-    autoCheck?: boolean;
-    // 是否渲染UI交互页面
-    renderUi?: boolean;
+  // 是否自动检测更新，设为true时 new 之后自动检测
+  autoCheck?: boolean;
+  // 是否渲染UI交互页面
+  renderUi?: boolean;
+}
+
+interface IUpdateServiceDownloadingProcess {
+  percent?: number;
 }
 /**
  * 更新服务：渲染进程核心类
@@ -80,7 +84,7 @@ class UpdateServiceRenderer {
    * 配置回调：下载中
    * @param callback 可自定义回调 
    */
-  public onDownloading(callback?:Function){
+  public onDownloading(callback?:(process?:IUpdateServiceDownloadingProcess)=>void){
     callback && (this._callbacks[UPDATE_NOTICE_CODE.DOWNLOADING] = callback);
   }
   /**
@@ -121,7 +125,7 @@ class UpdateServiceRenderer {
   /**
    * 回调：下载中
    */
-  public _onDownloading(progress?:any){
+  public _onDownloading(progress?:IUpdateServiceDownloadingProcess){
     this._renderUi && this._renderDownloadingUI(progress);
     this._callbacks[UPDATE_NOTICE_CODE.DOWNLOADING]?.(progress);
   }
@@ -174,7 +178,7 @@ class UpdateServiceRenderer {
   /**
    * 渲染UI：下载中
    */
-  private _renderDownloadingUI(progress?:any){
+  private _renderDownloadingUI(progress?:IUpdateServiceDownloadingProcess){
     console.log('_renderDownloadingUI');
     const percent = progress?.percent?.toFixed(1);
     this._hideDialogViaClickMask = false;
@@ -269,7 +273,7 @@ class UpdateServiceRenderer {
           break;
           // 下载中
         case UPDATE_NOTICE_CODE.DOWNLOADING:
-          this._onDownloading(data.message);
+          this._onDownloading(data.message as IUpdateServiceDownloadingProcess);
           break;
           // 更新失败
         case UPDATE_NOTICE_CODE.UPDATE_FAIL:
