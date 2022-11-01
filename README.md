@@ -97,3 +97,25 @@ updateRenderer.checkUpdate();
 
 自定义回调：更新包下载完成
 > 此时可调用`updateRenderer.confirmUpdate()`安装更行包
+
+## 默认提示UI
+
+检查更新
+
+![](./assets/checking.png)
+
+有可用更新
+
+![](./assets/needupdate.png)
+
+下载中
+
+![](./assets/downloading.png)
+
+下载成功
+
+![](./assets/downloaded.png)
+
+错误提示
+
+![](./assets/fail.png)

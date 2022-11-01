@@ -31,6 +31,7 @@ module.exports = {
     },
     devServer: {
         port: 9000,
+        allowedHosts: 'all'
         // https: true
     },
     plugins: [new HtmlWebpackPlugin({

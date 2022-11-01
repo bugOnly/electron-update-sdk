@@ -122,7 +122,7 @@ class UpdateServiceRenderer {
    * 回调：下载中
    */
   public _onDownloading(progress?:any){
-    this._renderUi && this._renderDownloadingUI();
+    this._renderUi && this._renderDownloadingUI(progress);
     this._callbacks[UPDATE_NOTICE_CODE.DOWNLOADING]?.(progress);
   }
   /**
@@ -174,8 +174,14 @@ class UpdateServiceRenderer {
   /**
    * 渲染UI：下载中
    */
-  private _renderDownloadingUI(){
+  private _renderDownloadingUI(progress?:any){
     console.log('_renderDownloadingUI');
+    const percent = progress?.percent?.toFixed(1);
+    this._hideDialogViaClickMask = false;
+    this._components.$dialog.innerHTML = '';
+    this._components.$dialog_downloading.innerHTML = percent ? `更新下载中：${percent}%` : '更新下载中...';
+    this._components.$dialog.appendChild(this._components.$dialog_downloading);
+    this._showDialog();
   }
   /**
    * 渲染UI：更新失败
@@ -193,6 +199,10 @@ class UpdateServiceRenderer {
    */
   private _renderDownloadSuccessUI(){
     console.log('_renderDownloadSuccessUI');
+    this._hideDialogViaClickMask = false;
+    this._components.$dialog.innerHTML = '';
+    this._components.$dialog.appendChild(this._components.$dialog_downloadSuccess);
+    this._showDialog();
   }
   /**
    * 部分UI

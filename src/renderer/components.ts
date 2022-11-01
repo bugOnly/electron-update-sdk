@@ -45,6 +45,8 @@ export function createComponents(opts:ICreateComponentsOpts){
     $dialog,
     $dialog_checking: createCheckingDialog(),
     $dialog_noUpdate: createNoUpdateDialog(),
+    $dialog_downloading: createDownloadingDialog(),
+    $dialog_downloadSuccess: createDownloadSuccessDialog(opts.eventBus),
     $dialog_neewUpdate: createNeedUpdateDialog(opts.eventBus),
     $dialog_fail: createFailDialog()
   };
@@ -117,6 +119,69 @@ function createNeedUpdateDialog(eventBus: EventEmitter){
   const $text_box = document.createElement('div');
   $text_box.style.textAlign = 'center';
   $text_box.innerHTML = '有新版本，是否下载安装？';
+
+  $dialog.appendChild($text_box);
+  $dialog.appendChild($btn_box);
+
+  return $dialog;
+}
+
+// 下载中弹窗
+function createDownloadingDialog(){
+  const $dialog = document.createElement('div');
+  $dialog.style.width = '200px';
+  $dialog.style.height = '100px';
+  $dialog.style.lineHeight = '100px';
+  $dialog.innerHTML = '更新包下载中...';
+
+  return $dialog;
+}
+
+// 下载完成弹窗
+function createDownloadSuccessDialog(eventBus: EventEmitter){
+  const $dialog = document.createElement('div');
+  // 确认按钮
+  const $btn_confirm = document.createElement('div');
+  $btn_confirm.style.width = '80px';
+  $btn_confirm.style.height = '30px';
+  $btn_confirm.style.lineHeight = '30px';
+  $btn_confirm.style.fontSize = '14px';
+  $btn_confirm.style.fontWeight = 'bold';
+  $btn_confirm.style.backgroundColor = '#1890ff';
+  $btn_confirm.style.border = 'solid 1px #1890ff';
+  $btn_confirm.style.borderRadius = '3px';
+  $btn_confirm.style.cursor = 'pointer';
+  $btn_confirm.style.color = '#ffffff';
+  $btn_confirm.style.display = 'inline-block';
+  $btn_confirm.style.verticalAlign = 'middle';
+  $btn_confirm.style.marginRight = '10px';
+  $btn_confirm.innerHTML = '安 装';
+  $btn_confirm.onclick = () => eventBus.emit(UPDATESERVICE_RENDERER_EVENTS.CONFIRM_INSTALL);
+  // 取消按钮
+  const $btn_cancel = document.createElement('div');
+  $btn_cancel.style.width = '80px';
+  $btn_cancel.style.height = '30px';
+  $btn_cancel.style.lineHeight = '30px';
+  $btn_cancel.style.fontSize = '14px';
+  $btn_cancel.style.fontWeight = 'bold';
+  $btn_cancel.style.backgroundColor = '#ffffff';
+  $btn_cancel.style.border = 'solid 1px #d9d9d9';
+  $btn_cancel.style.borderRadius = '3px';
+  $btn_cancel.style.cursor = 'pointer';
+  $btn_cancel.style.display = 'inline-block';
+  $btn_cancel.style.verticalAlign = 'middle';
+  $btn_cancel.innerHTML = '取 消';
+  $btn_cancel.onclick = () => eventBus.emit(UPDATESERVICE_RENDERER_EVENTS.CANCEL_UPDATE);
+
+  const $btn_box = document.createElement('div');
+  $btn_box.style.textAlign = 'center';
+  $btn_box.style.marginTop = '10px';
+  $btn_box.appendChild($btn_confirm);
+  $btn_box.appendChild($btn_cancel);
+
+  const $text_box = document.createElement('div');
+  $text_box.style.textAlign = 'center';
+  $text_box.innerHTML = '更新包下载完成，是否安装？';
 
   $dialog.appendChild($text_box);
   $dialog.appendChild($btn_box);
