@@ -5,9 +5,13 @@
   "files": [
     "libs"
   ],
+  "publishConfig": {
+    "registry": "https://npm.xesv5.com/"
+  },
   "scripts": {
     "tsc": "rm -rf libs/ && tsc --project tsconfig.json",
-    "lint": "eslint --fix \"./src/**/*.ts\""
+    "lint": "eslint --fix \"./src/**/*.ts\"",
+    "prepublish": "npm run tsc"
   },
   "author": "",
   "license": "ISC",
