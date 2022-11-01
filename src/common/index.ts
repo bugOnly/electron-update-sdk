@@ -1,3 +1,5 @@
+export * from './events';
+
 // 升级通知事件名称
 export const UpdateNoticeEvent = 'UpdateNotice';
 // 升级通知 code 
@@ -23,3 +25,8 @@ export interface IUpdateNoticeData {
     code: number;
     message?: any;
 }
+// updateService 渲染进程 API
+export interface IUpdateServiceAPI {
+    onMessage: (callback: (data:IUpdateNoticeData)=>void) => void;
+    sendMessage: (event:UPDATE_REQUEST_EVENTS, data?: any)=>void;
+};

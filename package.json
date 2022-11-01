@@ -2,7 +2,9 @@
   "name": "@dfe/electron-update-sdk",
   "version": "0.1.0",
   "description": "",
-  "files": ["libs"],
+  "files": [
+    "libs"
+  ],
   "scripts": {
     "tsc": "rm -rf libs/ && tsc --project tsconfig.json",
     "lint": "eslint --fix \"./src/**/*.ts\""
