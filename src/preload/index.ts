@@ -14,5 +14,5 @@ const apis: IUpdateServiceAPI = {
 
 export default {
   name: 'updateService',
-  content: apis
+  apis
 };

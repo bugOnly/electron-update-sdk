@@ -1,12 +1,12 @@
 {
-  "name": "@dfe/electron-update-sdk",
+  "name": "@bugonly/electron-update-sdk",
   "version": "0.1.0",
   "description": "",
   "files": [
     "libs"
   ],
   "publishConfig": {
-    "registry": "https://npm.xesv5.com/"
+    "access": "public"
   },
   "scripts": {
     "tsc": "rm -rf libs/ && tsc --project tsconfig.json",
