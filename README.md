@@ -1,13 +1,13 @@
-# @dfe/electron-update-sdk
+# @bugonly/electron-update-sdk
 
 基于 electron-updater 封装的更新服务组件。
 
 ## 安装
 ```bash
 #yarn 
-yarn add @dfe/electron-update-sdk
+yarn add @bugonly/electron-update-sdk
 #npm
-npm i @dfe/electron-update-sdk
+npm i @bugonly/electron-update-sdk
 ```
 
 ## 使用
@@ -16,7 +16,7 @@ Electron 需要同时在主进程和预加载脚本中引入 SDK。
 
 主进程引入：
 ```typescript
-import updateService from '@dfe/electron-update-sdk/libs/main';
+import updateService from '@bugonly/electron-update-sdk/libs/main';
 
 const mainWindow = createWindow('main', {
   width: 1000,
@@ -35,14 +35,14 @@ updateService.setup(mainWindow, {
 预加载脚本引入：
 ```typescript
 import { contextBridge } from 'electron';
-import updateServicePreload from '@dfe/electron-update-sdk/libs/preload';
+import updateServicePreload from '@bugonly/electron-update-sdk/libs/preload';
 
 contextBridge.exposeInMainWorld(updateServicePreload.name, updateServicePreload.content);
 ```
 
 ### 渲染进程
 ```typescript
-import { UpdateServiceRenderer } from '@dfe/electron-update-sdk/libs/renderer';
+import { UpdateServiceRenderer } from '@bugonly/electron-update-sdk/libs/renderer';
 
 const updateRenderer = new UpdateServiceRenderer({
   // 是否使用 SDK 默认的UI提示，默认为 true，建议自定义
