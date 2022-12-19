@@ -46,19 +46,17 @@ import { UpdateServiceRenderer } from '@bugonly/electron-update-sdk/libs/rendere
 
 const updateRenderer = new UpdateServiceRenderer({
   // 是否使用 SDK 默认的UI提示，默认为 true，建议自定义
-  renderUi: false,
-  // 是否自动检查更新，设置为true时 new 之后会自动检查
-  autoCheck: false
+  renderUi: false
 });
 // 检查更新
-updateRenderer.checkUpdate();
+updateRenderer.checkUpdate(false);
 ```
 
 #### 功能API
 
-**updateRenderer.checkUpdate()**
+**updateRenderer.checkUpdate(slient:boolean)**
 
-主动检查更新
+主动检查更新，入参 `slient`为`true`时，当检查中或没有更新时不显示UI提示。
 
 **updateRenderer.confirmDownload()**
 

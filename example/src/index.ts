@@ -4,6 +4,7 @@ const $app = document.getElementById('app');
 const $btn_checkUpdate = document.getElementById('checkUpdate');
 const $btn_confirmDownload = document.getElementById('confirmDownload');
 const $btn_confirmUpdate = document.getElementById('confirmUpdate');
+const $btn_testLogger = document.getElementById('testLogger');
 
 const updateRenderer = new UpdateServiceRenderer();
 
@@ -16,6 +17,11 @@ $btn_confirmDownload.onclick = ()=>{
 };
 $btn_confirmUpdate.onclick = ()=>{
   updateRenderer.confirmUpdate();
+};
+$btn_testLogger.onclick = ()=>{
+  window['logger']?.error?.('[Event][test]:test-report', {
+    from: 'test'
+  });
 };
 updateRenderer.onCheckingUpdate(()=>{
   console.log('检查更新中');

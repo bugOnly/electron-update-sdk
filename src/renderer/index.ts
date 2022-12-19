@@ -8,8 +8,6 @@ declare global {
 }
 
 interface IUpdateServiceRendererOpt {
-  // 是否自动检测更新，设为true时 new 之后自动检测
-  autoCheck?: boolean;
   // 是否渲染UI交互页面
   renderUi?: boolean;
 }
@@ -21,7 +19,10 @@ interface IUpdateServiceDownloadingProcess {
  * 更新服务：渲染进程核心类
  */
 class UpdateServiceRenderer {
+  // 是否渲染UI提示
   private _renderUi:boolean;
+  // 是否静默检查更新，未true时检查中和无更新时隐藏UI提示
+  private _slient: boolean;
   private _callbacks:Record<string, Function>={};
   private _components: Record<string, HTMLElement>;
   // 点击遮罩关闭弹窗
@@ -34,9 +35,6 @@ class UpdateServiceRenderer {
     this._listenIpc();
     // 绑定事件
     this._bind();
-    if(opts.autoCheck){
-      this.checkUpdate();
-    }
     if(opts.renderUi){
       this._preRender();
     }
@@ -44,7 +42,8 @@ class UpdateServiceRenderer {
   /**
    * 检查更新
    */
-  public checkUpdate(){
+  public checkUpdate(slient = false){
+    this._slient = slient;
     window.updateService?.sendMessage?.(UPDATE_REQUEST_EVENTS.CHECK_UPDATE);
   }
   /**
@@ -105,14 +104,14 @@ class UpdateServiceRenderer {
    * 回调：检测中
    */
   public _onCheckingUpdate(msg?:any){
-    this._renderUi && this._renderCheckingUI();
+    !this._slient && this._renderUi && this._renderCheckingUI();
     this._callbacks[UPDATE_NOTICE_CODE.CHECKING]?.(msg);
   }
   /**
    * 回调：没有新版本
    */
   public _onNoUpdate(msg?:any){
-    this._renderUi && this._renderNoUpdateUI();
+    !this._slient && this._renderUi && this._renderNoUpdateUI();
     this._callbacks[UPDATE_NOTICE_CODE.NO_NEW_VERSION]?.(msg);
   }
   /**
@@ -259,23 +258,23 @@ class UpdateServiceRenderer {
         case UPDATE_NOTICE_CODE.CHECKING:
           this._onCheckingUpdate(data.message);
           break;
-          // 没有新版本
+        // 没有新版本
         case UPDATE_NOTICE_CODE.NO_NEW_VERSION:
           this._onNoUpdate(data.message);
           break;
-          // 有新版本
+        // 有新版本
         case UPDATE_NOTICE_CODE.HAS_NEW_VERSION:
           this._onNeedUpdate(data.message);
           break;
-          // 下载完成
+        // 下载完成
         case UPDATE_NOTICE_CODE.DOWNLOAD_SUCCESS:
           this._onDownloadSuccess(data.message);
           break;
-          // 下载中
+        // 下载中
         case UPDATE_NOTICE_CODE.DOWNLOADING:
           this._onDownloading(data.message as IUpdateServiceDownloadingProcess);
           break;
-          // 更新失败
+        // 更新失败
         case UPDATE_NOTICE_CODE.UPDATE_FAIL:
           this._onUpdateFail(data.message);
           break;
